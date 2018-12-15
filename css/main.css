@@ -193,6 +193,28 @@ textarea {
     clear: both;
 }
 
+#container {
+
+}
+
+#copyright2{
+    position: absolute;
+    top: 0;
+    left:0;
+}
+
+#copyright {
+    position: fixed; 
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+
+#image_bg{
+    background-size:     cover;                      /* <------ */
+}
+
 /* ==========================================================================
    EXAMPLE Media Queries for Responsive Design.
    These examples override the primary ('mobile first') styles.
