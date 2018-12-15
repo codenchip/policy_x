@@ -1,0 +1,115 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="apple-touch-icon" href="icon.png">
+  <!-- Place favicon.ico in the root directory -->
+
+  <!-- <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/main.css"> -->
+  <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.0/mapsjs-ui.css" />
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.4/leaflet.css" />
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.css" />
+  <style>
+    #map {
+      height: 250px;
+    }
+  </style>
+</head>
+
+<body>
+  <!--[if lte IE 9]>
+    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+  <![endif]-->
+
+  <!-- Add your site or application content here -->
+  <h2>Search</h2>
+  Place: <select id="location" data-placeholder="Enter your address" data-width="100%"></select>
+  <h2>Results</h2>
+  Latitude: <input id="lat" name="lat" type="text" value="" disabled/><br>
+  Longitude: <input id="lng" name="lng" type="text" value="" disabled/>
+  <div id="map"></div>
+  <script src="js/vendor/modernizr-3.6.0.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+  <!-- <script type="text/javascript" src="https://js.api.here.com/v3/3.0/mapsjs-core.js"></script>
+  <script type="text/javascript" src="https://js.api.here.com/v3/3.0/mapsjs-service.js"></script>
+  <script type="text/javascript" src="https://js.api.here.com/v3/3.0/mapsjs-ui.js"></script>
+  <script type="text/javascript" src="https://js.api.here.com/v3/3.0/mapsjs-mapevents.js"></script> -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.4/leaflet.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+
+  <script type="text/javascript">
+    var options = {
+      minimumInputLength: 1,
+      ajax: {
+        url: 'https://autocomplete.geocoder.cit.api.here.com/6.2/suggest.json',
+        delay: 250,
+        dataType: 'json',
+        data: function (params) {
+          return {
+            query: params.term,
+            app_id: 'JDpTGgIxvJ0xja9VnTol',
+            app_code: 'UBoIBB3niC7XDIrBC0XrKw',
+            beginHighlight: '<b>',
+            endHighlight: '</b>'
+          };
+        },
+        processResults: function (data) {
+          return {
+            results: $.map(data.suggestions, function (obj) {
+              return {
+                id: obj.locationId,
+                text: obj.label.split(', ').reverse().join(', ')
+              };
+            })
+          };
+        }
+      },
+      escapeMarkup: function (markup) {
+        return markup;
+      }
+    };
+
+    $('#location').select2(options).on('select2:select', function (e) {
+      $.getJSON('https://geocoder.cit.api.here.com/6.2/geocode.json', {
+        app_id: 'JDpTGgIxvJ0xja9VnTol',
+        app_code: 'UBoIBB3niC7XDIrBC0XrKw',
+        locationId: e.params.data.id
+      }).done(function (data) {
+        var locn = data.Response.View[0].Result[0].Location;
+        var lat = locn.DisplayPosition.Latitude;
+        var lng = locn.DisplayPosition.Longitude;
+        var mymap = L.map('map').setView([lat, lng], 13);
+
+        var opts = {
+          attribution: 'Map &copy; 1987-' + new Date().getFullYear() +
+            ' <a href="http://developer.here.com">HERE</a>',
+          subdomains: '1234',
+          app_id: 'DemoAppId01082013GAL',
+          app_code: 'AJKnXv84fjrb0KIHawS0Tg',
+          variant: 'normal.day'
+        };
+        L.tileLayer(
+          'https://{s}.base.maps.cit.api.here.com/maptile/2.1/maptile/newest/{variant}/{z}/{x}/{y}/256/png8?app_id={app_id}&app_code={app_code}&lg=eng',
+          opts).addTo(mymap);
+
+        var marker = L.marker([lat, lng], {
+          title: locn.Address.Label
+        }).addTo(mymap);
+
+        $('#lat').val(lat);
+        $('#lng').val(lng);
+      });
+    });
+  </script>
+</body>
+
+</html>
