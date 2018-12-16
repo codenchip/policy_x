@@ -16,6 +16,10 @@ html {
     line-height: 1.4;
 }
 
+body{
+    font-family: 'Nunito Sans', sans-serif;
+}
+
 /*
  * Remove text-shadow in selection highlight:
  * https://twitter.com/miketaylr/status/12228805301
@@ -96,9 +100,32 @@ textarea {
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
+#balance{
+    margin-top: 56%;
+    margin-left: 13%;
+}
 
+#current_balance{
+    font-weight: bold;
+    font-size: 1.75em;
+    margin-right: 0.3em;
+}
 
+#pool_pct{
+    
+}
 
+#total_pool{
+    margin-top: 5%;
+    font-weight: bold;
+    font-size: 1.75em;
+}
+
+#submit_btn{
+    margin-top: 115%;
+    width: 110%;
+    margin-left: -10%;
+}
 
 
 
@@ -307,3 +334,4 @@ textarea {
         page-break-after: avoid;
     }
 }
+
