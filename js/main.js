@@ -121,6 +121,20 @@ var P2PInsuContract = new web3.eth.Contract([
         },
         {
             "constant": true,
+            "inputs": [],
+            "name": "totalClaim",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
             "inputs": [
                 {
                     "name": "",
@@ -159,6 +173,20 @@ var P2PInsuContract = new web3.eth.Contract([
             ],
             "payable": false,
             "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "totalAccPool",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
             "type": "function"
         },
         {
@@ -375,7 +403,7 @@ var P2PInsuContract = new web3.eth.Contract([
             "name": "Burn",
             "type": "event"
         }
-    ],'0x240907d99626f4ae6826b9c806b0077644b90ee1',
+    ],'0x02d70a8d33726de3be88515f813339272ac7670c',
     {
         from:  web3.eth.accounts[0], // default from address
         gasPrice: '20000000000' // default gas price in wei, 20 gwei in this case
